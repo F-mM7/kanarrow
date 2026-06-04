@@ -1,0 +1,60 @@
+:root {
+  --bg-0: #eef1fb;
+  --bg-1: #f7f8ff;
+  --surface: #ffffff;
+  --surface-2: #f3f4fb;
+  --border: #e2e5f1;
+  --text: #1f2440;
+  --text-soft: #6b7194;
+  --text-faint: #aeb3cc;
+  --accent: #5b6bf0;
+  --accent-soft: #eaecff;
+  --accent-strong: #4350d6;
+  --correct: #18a368;
+  --correct-soft: #e2f6ec;
+  --wrong: #e0567b;
+  --wrong-soft: #fce8ee;
+  --shadow: 0 10px 30px -12px rgba(40, 48, 96, 0.28);
+  --shadow-sm: 0 2px 8px -2px rgba(40, 48, 96, 0.18);
+  --radius: 18px;
+  --radius-sm: 12px;
+
+  color-scheme: light;
+  font-family: system-ui, -apple-system, 'Hiragino Kaku Gothic ProN',
+    'Hiragino Sans', 'Noto Sans JP', 'Yu Gothic', Meiryo, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+}
+
+body {
+  color: var(--text);
+  background:
+    radial-gradient(1200px 600px at 15% -10%, #e7ecff 0%, transparent 60%),
+    radial-gradient(1000px 500px at 100% 0%, #f3e9ff 0%, transparent 55%),
+    linear-gradient(180deg, var(--bg-1), var(--bg-0));
+  background-attachment: fixed;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+input {
+  font-family: inherit;
+}
