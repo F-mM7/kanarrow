@@ -37,11 +37,7 @@ body {
 
 body {
   color: var(--text);
-  background:
-    radial-gradient(1100px 560px at 12% -12%, #1e2750 0%, transparent 60%),
-    radial-gradient(1000px 520px at 100% 0%, #2a2150 0%, transparent 55%),
-    linear-gradient(180deg, var(--bg-1), var(--bg-0));
-  background-attachment: fixed;
+  background: #000;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
