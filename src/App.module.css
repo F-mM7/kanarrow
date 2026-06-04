@@ -23,59 +23,28 @@
   gap: 12px;
 }
 
-.logoMark {
-  display: grid;
-  place-items: center;
-  width: 48px;
-  height: 48px;
-  border-radius: 14px;
-  background: linear-gradient(140deg, var(--accent), #8a7bf0);
-  color: #fff;
-  font-size: 1.6rem;
-  font-weight: 700;
-  box-shadow: var(--shadow-sm);
-}
-
 .title {
   margin: 0;
   font-size: clamp(1.3rem, 5vw, 1.6rem);
   letter-spacing: 0.04em;
 }
 
-.tagline {
-  margin: 2px 0 0;
-  font-size: 0.78rem;
-  color: var(--text-soft);
-}
-
-.stats {
-  display: flex;
-  gap: 8px;
-}
-
-.stat {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  min-width: 58px;
-  padding: 8px 10px;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  box-shadow: var(--shadow-sm);
-}
-
-.statValue {
-  font-size: 1.25rem;
+.titleClue {
+  font-size: 0.5em;
   font-weight: 700;
-  color: var(--accent-strong);
-  line-height: 1;
+  letter-spacing: normal;
+  color: var(--text-soft);
+  margin-right: 0.15em;
+  white-space: nowrap;
 }
 
-.statLabel {
-  margin-top: 4px;
-  font-size: 0.65rem;
-  color: var(--text-soft);
+.titleArrow {
+  color: var(--accent);
+}
+
+.titleEq {
+  margin-left: 0.1em;
+  color: var(--text-faint);
 }
 
 /* ---------- Card ---------- */
@@ -90,16 +59,17 @@
   gap: 18px;
 }
 
+.status {
+  margin: 0;
+  text-align: center;
+  color: var(--text-soft);
+  font-size: 0.95rem;
+}
+
 .boardArea {
   display: flex;
   flex-direction: column;
   gap: 12px;
-}
-
-.hintLabel {
-  text-align: center;
-  font-size: 0.85rem;
-  color: var(--text-soft);
 }
 
 .board {
@@ -215,7 +185,7 @@
   font-size: 1rem;
   font-weight: 700;
   color: #fff;
-  background: linear-gradient(140deg, var(--accent), var(--accent-strong));
+  background: linear-gradient(140deg, #5b6bf0, #8257f0);
   border: none;
   border-radius: 14px;
   box-shadow: var(--shadow-sm);
@@ -248,42 +218,10 @@
   animation: pop 0.3s ease;
 }
 
-.revealMsg {
-  color: var(--text-soft);
-}
-
 .wrongMsg {
   color: var(--wrong);
   display: inline-block;
   animation: shake 0.4s ease;
-}
-
-/* ---------- Controls ---------- */
-.controls {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-}
-
-.ghostBtn {
-  padding: 9px 18px;
-  font-size: 0.9rem;
-  font-weight: 600;
-  color: var(--text-soft);
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  transition: background 0.12s ease, color 0.12s ease;
-}
-
-.ghostBtn:hover:not(:disabled) {
-  background: var(--surface-2);
-  color: var(--text);
-}
-
-.ghostBtn:disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
 }
 
 /* ---------- Panel ---------- */
@@ -296,41 +234,9 @@
 .panelRow {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   gap: 10px;
   flex-wrap: wrap;
-}
-
-.difficulty {
-  display: flex;
-  gap: 6px;
-  flex-wrap: wrap;
-}
-
-.diffBtn {
-  padding: 7px 12px;
-  font-size: 0.78rem;
-  font-weight: 600;
-  color: var(--text-soft);
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 999px;
-  transition: all 0.12s ease;
-}
-
-.diffBtn:hover {
-  border-color: var(--accent);
-  color: var(--accent-strong);
-}
-
-.diffActive {
-  background: var(--accent);
-  border-color: var(--accent);
-  color: #fff;
-}
-
-.diffActive:hover {
-  color: #fff;
 }
 
 .toggleBtn {
@@ -356,12 +262,6 @@
   text-align: center;
   font-size: 0.72rem;
   color: var(--text-soft);
-}
-
-.footer {
-  text-align: center;
-  font-size: 0.7rem;
-  color: var(--text-faint);
 }
 
 /* ---------- Animations ---------- */

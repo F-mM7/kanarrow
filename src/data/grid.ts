@@ -88,3 +88,7 @@ export const DIRECTIONS: readonly Direction[] = [
   { key: 'downLeft', dr: 1, dc: -1, arrow: '↙', label: '左下' },
   { key: 'downRight', dr: 1, dc: 1, arrow: '↘', label: '右下' },
 ];
+
+// 矢印文字から方向を逆引きするマップ
+export const DIRECTION_BY_ARROW: Readonly<Record<string, Direction>> =
+  Object.fromEntries(DIRECTIONS.map((d) => [d.arrow, d]));

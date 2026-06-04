@@ -1,25 +1,25 @@
 :root {
-  --bg-0: #eef1fb;
-  --bg-1: #f7f8ff;
-  --surface: #ffffff;
-  --surface-2: #f3f4fb;
-  --border: #e2e5f1;
-  --text: #1f2440;
-  --text-soft: #6b7194;
-  --text-faint: #aeb3cc;
-  --accent: #5b6bf0;
-  --accent-soft: #eaecff;
-  --accent-strong: #4350d6;
-  --correct: #18a368;
-  --correct-soft: #e2f6ec;
-  --wrong: #e0567b;
-  --wrong-soft: #fce8ee;
-  --shadow: 0 10px 30px -12px rgba(40, 48, 96, 0.28);
-  --shadow-sm: 0 2px 8px -2px rgba(40, 48, 96, 0.18);
+  --bg-0: #0e1120;
+  --bg-1: #141a2e;
+  --surface: #1b2139;
+  --surface-2: #262e4a;
+  --border: #333b5b;
+  --text: #ecf0fb;
+  --text-soft: #9ba4c6;
+  --text-faint: #656e93;
+  --accent: #7382f8;
+  --accent-soft: #2b3463;
+  --accent-strong: #aab4ff;
+  --correct: #34d399;
+  --correct-soft: #133a2c;
+  --wrong: #fb7185;
+  --wrong-soft: #3b2030;
+  --shadow: 0 18px 44px -18px rgba(0, 0, 0, 0.65);
+  --shadow-sm: 0 2px 10px -3px rgba(0, 0, 0, 0.5);
   --radius: 18px;
   --radius-sm: 12px;
 
-  color-scheme: light;
+  color-scheme: dark;
   font-family: system-ui, -apple-system, 'Hiragino Kaku Gothic ProN',
     'Hiragino Sans', 'Noto Sans JP', 'Yu Gothic', Meiryo, sans-serif;
 }
@@ -38,8 +38,8 @@ body {
 body {
   color: var(--text);
   background:
-    radial-gradient(1200px 600px at 15% -10%, #e7ecff 0%, transparent 60%),
-    radial-gradient(1000px 500px at 100% 0%, #f3e9ff 0%, transparent 55%),
+    radial-gradient(1100px 560px at 12% -12%, #1e2750 0%, transparent 60%),
+    radial-gradient(1000px 520px at 100% 0%, #2a2150 0%, transparent 55%),
     linear-gradient(180deg, var(--bg-1), var(--bg-0));
   background-attachment: fixed;
   -webkit-font-smoothing: antialiased;
