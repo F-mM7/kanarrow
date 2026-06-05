@@ -11,10 +11,18 @@
 /* ---------- Header ---------- */
 .header {
   display: flex;
+  flex-direction: column;
+  gap: clamp(10px, 2.5vw, 16px);
+  margin-bottom: clamp(6px, 1.5vw, 12px);
+}
+
+/* 1行目: タイトル ＋ モード選択 */
+.topRow {
+  display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
 }
 
 .brand {
@@ -30,19 +38,32 @@
 }
 
 .titleClue {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3em;
   font-size: 0.5em;
   font-weight: 700;
-  letter-spacing: normal;
-  color: var(--text-soft);
-  margin-right: 0.15em;
-  white-space: nowrap;
+  color: var(--arrow);
+  margin-right: 0.2em;
+  vertical-align: middle;
+}
+
+.titleTile {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 1;
+}
+
+.titleKana {
+  line-height: 1;
+  color: var(--text);
 }
 
 .titleArrow {
-  width: 0.95em;
-  height: 0.95em;
-  color: var(--accent);
-  vertical-align: -0.12em;
+  width: 1.5em;
+  height: 1.5em;
+  color: var(--arrow);
 }
 
 .titleEq {
@@ -65,52 +86,119 @@
 }
 
 /* ---------- Controls ---------- */
+/* 各設定を縦に積む。ラベル左・ステッパー右で必ず1行に収まる */
 .controls {
   display: flex;
-  align-items: center;
-  flex-wrap: nowrap;
-  justify-content: center;
-  gap: 12px;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  max-width: 340px;
+  margin: 0 auto;
 }
 
 .controlRow {
   display: flex;
   align-items: center;
-  gap: 5px;
+  justify-content: space-between;
+  gap: 12px;
 }
 
 .controlLabel {
-  font-size: 0.78rem;
+  font-size: 0.85rem;
   font-weight: 700;
   color: var(--text-soft);
   white-space: nowrap;
 }
 
-.select {
-  padding: 4px 7px;
-  font-size: 0.82rem;
-  font-weight: 700;
-  color: var(--text);
+.controlField {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* −／＋ ステッパー */
+.stepper {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px;
   background: var(--surface-2);
   border: 1px solid var(--border);
   border-radius: 10px;
-  cursor: pointer;
-  transition: border-color 0.12s ease, box-shadow 0.12s ease;
 }
 
-.select:hover {
-  border-color: var(--accent);
+.stepBtn {
+  width: 28px;
+  height: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.15rem;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--accent-strong);
+  background: transparent;
+  border: none;
+  border-radius: 8px;
+  transition: background 0.12s ease, color 0.12s ease;
 }
 
-.select:focus {
-  outline: none;
-  border-color: var(--accent);
-  box-shadow: 0 0 0 3px var(--accent-soft);
+.stepBtn:hover:not(:disabled) {
+  background: var(--accent-soft);
+}
+
+.stepBtn:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+.stepBtn:disabled {
+  color: var(--text-faint);
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.stepValue {
+  min-width: 2.4em;
+  text-align: center;
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
 }
 
 .rangeSep {
   color: var(--text-faint);
   font-weight: 700;
+}
+
+/* モード選択（セグメント型トグル） */
+.modeToggle {
+  display: inline-flex;
+  gap: 2px;
+  padding: 2px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+
+.modeBtn {
+  padding: 4px clamp(9px, 2.8vw, 13px);
+  font-size: clamp(0.74rem, 2.5vw, 0.8rem);
+  font-weight: 700;
+  color: var(--text-soft);
+  background: transparent;
+  border: none;
+  border-radius: 8px;
+  transition: color 0.12s ease, background 0.12s ease;
+}
+
+.modeBtn:hover:not(.modeBtnActive) {
+  color: var(--text);
+}
+
+.modeBtnActive {
+  color: var(--btn-text);
+  background: linear-gradient(140deg, var(--accent-deep), var(--accent-violet));
 }
 
 .boardArea {
@@ -164,7 +252,7 @@
   width: min(4.4rem, 96cqw);
   height: min(4.4rem, 96cqw);
   flex: none;
-  color: #99a4ff;
+  color: var(--arrow);
 }
 
 /* ---------- Answer ---------- */
@@ -179,21 +267,17 @@
   min-width: 0;
   font-size: 1.1rem;
   padding: 9px 14px;
-  border: 1px solid var(--border);
   border-radius: 12px;
+  border: none;
   background: var(--surface);
   color: var(--text);
   outline: none;
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  -webkit-appearance: none;
+  appearance: none;
 }
 
 .input::placeholder {
   color: var(--text-faint);
-}
-
-.input:focus {
-  border-color: var(--accent);
-  box-shadow: 0 0 0 3px var(--accent-soft);
 }
 
 .input:disabled {
@@ -203,14 +287,7 @@
   opacity: 1;
 }
 
-.inputCorrect {
-  border-color: var(--correct) !important;
-  box-shadow: 0 0 0 3px var(--correct-soft) !important;
-}
-
 .inputWrong {
-  border-color: var(--wrong) !important;
-  box-shadow: 0 0 0 3px var(--wrong-soft) !important;
   animation: shake 0.4s ease;
 }
 
@@ -223,8 +300,8 @@
   padding: 9px 20px;
   font-size: 0.95rem;
   font-weight: 700;
-  color: #fff;
-  background: linear-gradient(140deg, #5b6bf0, #8257f0);
+  color: var(--btn-text);
+  background: linear-gradient(140deg, var(--accent-deep), var(--accent-violet));
   border: none;
   border-radius: 12px;
   box-shadow: var(--shadow-sm);
@@ -261,6 +338,78 @@
   color: var(--wrong);
   display: inline-block;
   animation: shake 0.4s ease;
+}
+
+/* ---------- Flash mode ---------- */
+/* 正解表示欄を画面中央に固定配置。円形タイマーはフローから外して右に固定 */
+.flashArea {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+/* 円形タイマー（SVG）。正解表示欄の右端を基準に絶対配置で固定 */
+.timer {
+  position: absolute;
+  left: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  margin-left: clamp(12px, 4vw, 36px);
+  width: clamp(56px, 16vw, 84px);
+  height: clamp(56px, 16vw, 84px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.timerSvg {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.timerTrack {
+  fill: none;
+  stroke: var(--surface-2);
+  stroke-width: 6;
+}
+
+.timerFill {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 6;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.1s linear;
+}
+
+.timerNum {
+  position: absolute;
+  font-size: clamp(1.2rem, 5vw, 1.8rem);
+  font-weight: 800;
+  line-height: 1;
+  color: var(--accent-strong);
+  font-variant-numeric: tabular-nums;
+}
+
+.flashAnswer {
+  position: relative;
+  width: 7em;
+  min-height: 1.5em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: clamp(1.6rem, 7vw, 2.8rem);
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  color: var(--text-faint);
+}
+
+.flashAnswerShow {
+  color: var(--correct);
+  letter-spacing: 0.08em;
+  animation: pop 0.3s ease;
 }
 
 /* ---------- Panel ---------- */
@@ -312,7 +461,8 @@
   .tile,
   .correctMsg,
   .wrongMsg,
-  .inputWrong {
+  .inputWrong,
+  .flashAnswerShow {
     animation: none;
   }
 }
