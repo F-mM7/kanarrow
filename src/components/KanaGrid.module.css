@@ -31,12 +31,12 @@
 .source {
   background: var(--accent-soft);
   color: var(--accent-strong);
-  box-shadow: inset 0 0 0 2px rgba(91, 107, 240, 0.35);
+  box-shadow: inset 0 0 0 2px color-mix(in srgb, var(--accent-deep) 35%, transparent);
 }
 
 .target {
   background: var(--correct-soft);
   color: var(--correct);
-  box-shadow: inset 0 0 0 2px rgba(24, 163, 104, 0.4);
+  box-shadow: inset 0 0 0 2px color-mix(in srgb, var(--correct-deep) 40%, transparent);
   transform: scale(1.04);
 }

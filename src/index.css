@@ -1,20 +1,23 @@
 :root {
-  --bg-0: #0e1120;
-  --bg-1: #141a2e;
+  --bg: #000;
   --surface: #1b2139;
   --surface-2: #262e4a;
   --border: #333b5b;
-  --text: #ecf0fb;
+  --text: oklab(from var(--arrow) calc(l * 0.9) 0 0); /* arrow の oklab 明度の 90% の無彩色 */
   --text-soft: #9ba4c6;
   --text-faint: #656e93;
   --accent: #7382f8;
   --accent-soft: #2b3463;
   --accent-strong: #aab4ff;
+  --accent-deep: #5b6bf0; /* primaryボタンの始点 ＋ sourceセル枠で共有 */
+  --accent-violet: #8257f0; /* primaryボタングラデの終点 */
+  --btn-text: #fff;
   --correct: #34d399;
   --correct-soft: #133a2c;
+  --correct-deep: #18a368; /* targetセル枠 */
   --wrong: #fb7185;
   --wrong-soft: #3b2030;
-  --shadow: 0 18px 44px -18px rgba(0, 0, 0, 0.65);
+  --arrow: lemonchiffon;
   --shadow-sm: 0 2px 10px -3px rgba(0, 0, 0, 0.5);
   --radius: 18px;
   --radius-sm: 12px;
@@ -37,7 +40,7 @@ body {
 
 body {
   color: var(--text);
-  background: #000;
+  background: var(--bg);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
