@@ -1,4 +1,4 @@
-import { GRID_COLS, GRID_ROWS } from '../data/grid';
+import { MAX_DIST } from '../data/grid';
 import weightsRaw from '../data/answer-weights.json?raw';
 import { cluesForTarget } from './puzzle';
 import type { Clue, Puzzle } from './puzzle';
@@ -15,8 +15,8 @@ export const LENGTHS: readonly number[] = Object.keys(WEIGHTS)
   .map(Number)
   .sort((a, b) => a - b);
 
-// 矢印上限として選べる最大値。盤面の端から端まで動ける最大マス数。
-export const MAX_DIST = Math.max(GRID_ROWS, GRID_COLS) - 1;
+// 矢印上限として選べる最大値（grid.ts で定義）。盤面の端から端まで動ける最大マス数。
+export { MAX_DIST };
 
 // 出題条件。文字数は [minLength, maxLength]、矢印（マス数）は maxDist 以下。
 export interface PuzzleOptions {
@@ -187,7 +187,7 @@ export function nextPuzzle(options: PuzzleOptions = {}): Puzzle {
   const d = ensureInit();
   const lo = options.minLength ?? LENGTHS[0];
   const hi = options.maxLength ?? LENGTHS[LENGTHS.length - 1];
-  const cap = Math.max(options.maxDist ?? MAX_DIST, minFeasibleCap(d, lo, hi));
+  const cap = feasibleMaxDist(lo, hi, options.maxDist ?? MAX_DIST);
   const pool = getPool(d, lo, hi, cap);
   if (pool.grandTotal === 0) {
     throw new Error('指定の条件に合う問題が見つかりませんでした');

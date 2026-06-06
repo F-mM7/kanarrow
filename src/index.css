@@ -16,11 +16,8 @@
   --correct-soft: #133a2c;
   --correct-deep: #18a368; /* targetセル枠 */
   --wrong: #fb7185;
-  --wrong-soft: #3b2030;
   --arrow: lemonchiffon;
   --shadow-sm: 0 2px 10px -3px rgba(0, 0, 0, 0.5);
-  --radius: 18px;
-  --radius-sm: 12px;
 
   color-scheme: dark;
   font-family: system-ui, -apple-system, 'Hiragino Kaku Gothic ProN',

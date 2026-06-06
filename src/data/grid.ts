@@ -20,6 +20,9 @@ export interface Pos {
 export const GRID_ROWS = 5;
 export const GRID_COLS = 11;
 
+// 矢印の最大マス数。盤面の端から端まで動ける最大距離（行・列の長い方 − 1）。
+export const MAX_DIST = Math.max(GRID_ROWS, GRID_COLS) - 1;
+
 export const KANA_TO_POS: Readonly<Record<string, Pos>> = {
   // あ行 (col=10)
   あ: { row: 0, col: 10 }, い: { row: 1, col: 10 }, う: { row: 2, col: 10 },
@@ -55,7 +58,7 @@ export const KANA_TO_POS: Readonly<Record<string, Pos>> = {
 
 const posKey = (row: number, col: number): string => `${row}-${col}`;
 
-export const POS_TO_KANA: Readonly<Record<string, string>> = Object.fromEntries(
+const POS_TO_KANA: Readonly<Record<string, string>> = Object.fromEntries(
   Object.entries(KANA_TO_POS).map(([kana, { row, col }]) => [posKey(row, col), kana]),
 );
 
@@ -63,32 +66,26 @@ export function kanaAt(row: number, col: number): string | null {
   return POS_TO_KANA[posKey(row, col)] ?? null;
 }
 
-export const VALID_POSITIONS: ReadonlySet<string> = new Set(Object.keys(POS_TO_KANA));
-
 // 8方向の定義。dr/dc は画面座標（下方向が row+、右方向が col+）。
 export type DirectionKey =
   | 'up' | 'down' | 'left' | 'right'
   | 'upLeft' | 'upRight' | 'downLeft' | 'downRight';
 
 export interface Direction {
+  // key は出題重みの生成スクリプト（generate-answer-weights.py）が grid.ts を
+  // パースする際の目印に使うため、TS から未参照でも残す。
   key: DirectionKey;
   dr: number;
   dc: number;
-  arrow: string;
-  label: string;
 }
 
 export const DIRECTIONS: readonly Direction[] = [
-  { key: 'up', dr: -1, dc: 0, arrow: '↑', label: '上' },
-  { key: 'down', dr: 1, dc: 0, arrow: '↓', label: '下' },
-  { key: 'left', dr: 0, dc: -1, arrow: '←', label: '左' },
-  { key: 'right', dr: 0, dc: 1, arrow: '→', label: '右' },
-  { key: 'upLeft', dr: -1, dc: -1, arrow: '↖', label: '左上' },
-  { key: 'upRight', dr: -1, dc: 1, arrow: '↗', label: '右上' },
-  { key: 'downLeft', dr: 1, dc: -1, arrow: '↙', label: '左下' },
-  { key: 'downRight', dr: 1, dc: 1, arrow: '↘', label: '右下' },
+  { key: 'up', dr: -1, dc: 0 },
+  { key: 'down', dr: 1, dc: 0 },
+  { key: 'left', dr: 0, dc: -1 },
+  { key: 'right', dr: 0, dc: 1 },
+  { key: 'upLeft', dr: -1, dc: -1 },
+  { key: 'upRight', dr: -1, dc: 1 },
+  { key: 'downLeft', dr: 1, dc: -1 },
+  { key: 'downRight', dr: 1, dc: 1 },
 ];
-
-// 矢印文字から方向を逆引きするマップ
-export const DIRECTION_BY_ARROW: Readonly<Record<string, Direction>> =
-  Object.fromEntries(DIRECTIONS.map((d) => [d.arrow, d]));
