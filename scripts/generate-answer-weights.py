@@ -20,7 +20,7 @@ src/data/answer-weights.json を出力する。
     引数が無い場合や、指定されたファイルが存在しない場合は失敗する。
 
 整形は generate-words.py と同一（カタカナ→ひらがな、清音 46 文字のみ、1〜6 文字）。
-盤面・向き・盤面サイズの定義は src/data/grid.ts から読み取る。
+整形ルールと盤面・向き・盤面サイズの解析は _kana.py に集約している。
 
 出力（JSON）:
     { "1": { "<answer>": [w_1, w_2, ..., w_M], ... }, "2": {...}, ..., "6": {...} }
@@ -32,60 +32,15 @@ src/data/answer-weights.json を出力する。
     python3 scripts/generate-answer-weights.py <辞書ファイル> [出力先(.json)]
 """
 import json
-import re
 import sys
 from collections import defaultdict
 from pathlib import Path
 
+from _kana import GRID_TS, load_source, normalize, parse_grid
+
 sys.stdout.reconfigure(line_buffering=True)
 
-ROOT = Path(__file__).resolve().parent.parent
-GRID_TS = ROOT / "src" / "data" / "grid.ts"
-DEFAULT_OUT = ROOT / "src" / "data" / "answer-weights.json"
-
-MIN_LEN = 1
-MAX_LEN = 6
-
-
-def parse_grid(
-    grid_src: str,
-) -> tuple[dict[str, tuple[int, int]], list[tuple[int, int]], int, int]:
-    """grid.ts から かな→座標・向き(dr,dc)・盤面サイズを取り出す。"""
-    pos: dict[str, tuple[int, int]] = {}
-    for m in re.finditer(r"(\S)\s*:\s*\{\s*row:\s*(\d+)\s*,\s*col:\s*(\d+)\s*\}", grid_src):
-        pos[m.group(1)] = (int(m.group(2)), int(m.group(3)))
-
-    dirs: list[tuple[int, int]] = []
-    for m in re.finditer(
-        r"\{\s*key:\s*'[^']+',\s*dr:\s*(-?\d+),\s*dc:\s*(-?\d+),", grid_src
-    ):
-        dirs.append((int(m.group(1)), int(m.group(2))))
-
-    rows_m = re.search(r"GRID_ROWS\s*=\s*(\d+)", grid_src)
-    cols_m = re.search(r"GRID_COLS\s*=\s*(\d+)", grid_src)
-    if not pos or not dirs or not rows_m or not cols_m:
-        raise RuntimeError("grid.ts の解析に失敗しました（フォーマット変更の可能性）")
-    return pos, dirs, int(rows_m.group(1)), int(cols_m.group(1))
-
-
-def to_hiragana(s: str) -> str:
-    return "".join(
-        chr(code - 0x60) if 0x30A1 <= (code := ord(ch)) <= 0x30F6 else ch for ch in s
-    )
-
-
-def normalize(word: str, valid: frozenset[str]) -> str | None:
-    h = to_hiragana(word.strip())
-    if MIN_LEN <= len(h) <= MAX_LEN and all(ch in valid for ch in h):
-        return h
-    return None
-
-
-def load_source(path: Path) -> list[str]:
-    if not path.is_file():
-        sys.exit(f"辞書ファイルが見つかりません: {path}")
-    text = path.read_text(encoding="utf-8")
-    return [w.strip() for w in text.splitlines() if w.strip()]
+DEFAULT_OUT = GRID_TS.parent / "answer-weights.json"
 
 
 def main() -> None:
@@ -96,7 +51,7 @@ def main() -> None:
     input_path = Path(sys.argv[1])
     out_path = Path(sys.argv[2]) if len(sys.argv) > 2 else DEFAULT_OUT
 
-    pos, dirs, rows, cols = parse_grid(GRID_TS.read_text(encoding="utf-8"))
+    pos, dirs, rows, cols = parse_grid()
     valid = frozenset(pos)
     pos_to_kana = {rc: kana for kana, rc in pos.items()}
 

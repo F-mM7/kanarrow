@@ -17,7 +17,7 @@ B の抽選の両方がこのリストを共有する。
     - 文字数は MIN_LEN〜MAX_LEN（1〜6）に限定する。
 
 清音 46 文字の集合は、ゲーム本体と食い違わないよう src/data/grid.ts の
-座標定義から読み取る。
+座標定義から読み取る。整形ルールと grid.ts の解析は _kana.py に集約している。
 
 出力:
     src/data/words.ts。WORDS_RAW（改行区切りの語）と WORDS（配列）を export する。
@@ -25,53 +25,14 @@ B の抽選の両方がこのリストを共有する。
 使い方:
     python3 scripts/generate-words.py <辞書ファイル> [出力先(.ts)]
 """
-import re
 import sys
 from pathlib import Path
 
+from _kana import GRID_TS, MAX_LEN, MIN_LEN, load_source, normalize, parse_grid
+
 sys.stdout.reconfigure(line_buffering=True)
 
-ROOT = Path(__file__).resolve().parent.parent
-GRID_TS = ROOT / "src" / "data" / "grid.ts"
-DEFAULT_OUT = ROOT / "src" / "data" / "words.ts"
-
-MIN_LEN = 1
-MAX_LEN = 6
-
-
-def parse_valid_kana(grid_src: str) -> frozenset[str]:
-    """grid.ts の座標定義から、盤面に存在する清音かなの集合を取り出す。"""
-    kana = {
-        m.group(1)
-        for m in re.finditer(
-            r"(\S)\s*:\s*\{\s*row:\s*\d+\s*,\s*col:\s*\d+\s*\}", grid_src
-        )
-    }
-    if not kana:
-        raise RuntimeError("grid.ts の解析に失敗しました（フォーマット変更の可能性）")
-    return frozenset(kana)
-
-
-def to_hiragana(s: str) -> str:
-    """カタカナ（ァ〜ヶ）をひらがなに変換する。長音符などはそのまま。"""
-    return "".join(
-        chr(code - 0x60) if 0x30A1 <= (code := ord(ch)) <= 0x30F6 else ch for ch in s
-    )
-
-
-def normalize(word: str, valid: frozenset[str]) -> str | None:
-    """整形して 1〜6 文字の清音語なら返す。条件を外れるなら None。"""
-    h = to_hiragana(word.strip())
-    if MIN_LEN <= len(h) <= MAX_LEN and all(ch in valid for ch in h):
-        return h
-    return None
-
-
-def load_source(path: Path) -> list[str]:
-    if not path.is_file():
-        sys.exit(f"辞書ファイルが見つかりません: {path}")
-    text = path.read_text(encoding="utf-8")
-    return [w.strip() for w in text.splitlines() if w.strip()]
+DEFAULT_OUT = GRID_TS.parent / "words.ts"
 
 
 def main() -> None:
@@ -80,7 +41,8 @@ def main() -> None:
     input_path = Path(sys.argv[1])
     out_path = Path(sys.argv[2]) if len(sys.argv) > 2 else DEFAULT_OUT
 
-    valid = parse_valid_kana(GRID_TS.read_text(encoding="utf-8"))
+    pos, _dirs, _rows, _cols = parse_grid()
+    valid = frozenset(pos)
 
     raw = load_source(input_path)
     words = sorted({h for w in raw if (h := normalize(w, valid))})
